@@ -3,6 +3,26 @@
 // Create a WebSocket connection
 //const ws = new WebSocket('ws://localhost:3000/server')
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyAYjLbsdGgVccTHa_bpEaDh7orYmzldiMk",
+  authDomain: "stewflandic-permission-system.firebaseapp.com",
+  databaseURL: "https://stewflandic-permission-system-default-rtdb.firebaseio.com",
+  projectId: "stewflandic-permission-system",
+  storageBucket: "stewflandic-permission-system.firebasestorage.app",
+  messagingSenderId: "1035943934052",
+  appId: "1:1035943934052:web:d3b8c6802c9a99ec81c771"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
 ws.onmessage = (event) => {
   console.log('Message received from server')
   const message = JSON.parse(event.data)
