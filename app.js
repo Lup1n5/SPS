@@ -1,14 +1,14 @@
 // @ts-nocheck
 
 // Create a WebSocket connection
-const ws = new WebSocket('ws://localhost:3000/server')
+//const ws = new WebSocket('ws://localhost:3000/server')
 
-ws.onmessage = (event) => {
-  console.log('Message received from server')
-  const message = JSON.parse(event.data)
-  console.log(message)
-  chatMessages.innerHTML += createChatMessageElement(message)
-}
+// ws.onmessage = (event) => {
+//   console.log('Message received from server')
+//   const message = JSON.parse(event.data)
+//   console.log(message)
+//   chatMessages.innerHTML += createChatMessageElement(message)
+// }
 
 const userInfoModal = document.querySelector('.user-info-modal')
 const userInfoForm = document.querySelector('.user-info-form')
@@ -47,7 +47,7 @@ userInfoForm.addEventListener('submit', (e) => {
 
   updateMessageSender(username, chatCode)
 
-  ws.send(JSON.stringify({ type: 'join', chatCode }))
+  //ws.send(JSON.stringify({ type: 'join', chatCode }))
   userInfoModal.style.display = 'none'
 })
 
