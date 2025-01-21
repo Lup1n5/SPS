@@ -31,7 +31,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
-ws.onmessage = (event) => {
+ws.onmessage = (event) => {  //CHANGE THIS
   console.log('Message received from server')
   const message = JSON.parse(event.data)
   console.log(message)
@@ -184,7 +184,7 @@ const createChatMessageElement = (message) => `
 const updateMessageSender = (name, code) => {
   messageSender = name
   chatCode = code
-  chatHeader.innerText = `${name} chatting with code: ${code}`
+  //chatHeader.innerText = `${name} chatting with code: ${code}`
   chatInput.placeholder = `Type here, ${messageSender}...`
 
   /* auto-focus the input field */
@@ -198,7 +198,7 @@ userInfoForm.addEventListener('submit', (e) => {
 
   updateMessageSender(username, chatCode)
 
-  ws.send(JSON.stringify({ type: 'join', chatCode }))
+  //ws.send(JSON.stringify({ type: 'join', chatCode }))
   userInfoModal.style.display = 'none'
 })
 
@@ -210,10 +210,9 @@ const sendMessage = (e) => {
     sender: messageSender,
     text: chatInput.value,
     timestamp,
-    chatCode,
   }
 
-  // Send message through WebSocket
+  // Send message through WebSocket NEED TO CHANGE TO FIREBASE 
   ws.send(JSON.stringify(message))
 
   // Clear input field
@@ -225,7 +224,7 @@ const sendMessage = (e) => {
 
 chatInputForm.addEventListener('submit', sendMessage)
 
-clearChatBtn.addEventListener('click', () => {
-  localStorage.clear()
-  chatMessages.innerHTML = ''
-})
+// clearChatBtn.addEventListener('click', () => {
+//   localStorage.clear()
+//   chatMessages.innerHTML = ''
+// })
