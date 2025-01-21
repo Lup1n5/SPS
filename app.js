@@ -31,7 +31,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
-const db = app.database();
+const db = firebase.database();
 // ws.onmessage = (event) => {  //CHANGE THIS
 //   console.log('Message received from server')
 //   const message = JSON.parse(event.data)
