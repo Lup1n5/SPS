@@ -30,13 +30,13 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
-
-ws.onmessage = (event) => {  //CHANGE THIS
-  console.log('Message received from server')
-  const message = JSON.parse(event.data)
-  console.log(message)
-  chatMessages.innerHTML += createChatMessageElement(message)
-}
+const db = app.database();
+// ws.onmessage = (event) => {  //CHANGE THIS
+//   console.log('Message received from server')
+//   const message = JSON.parse(event.data)
+//   console.log(message)
+//   chatMessages.innerHTML += createChatMessageElement(message)
+// }
 
 const userInfoModal = document.querySelector('.user-info-modal')
 const userInfoForm = document.querySelector('.user-info-form')
@@ -198,10 +198,14 @@ userInfoForm.addEventListener('submit', (e) => {
 
   updateMessageSender(username, chatCode)
 
-  //ws.send(JSON.stringify({ type: 'join', chatCode }))
+  send(JSON.stringify(username))
   userInfoModal.style.display = 'none'
 })
-
+function send(message) {
+  db.ref('SPS/messages/' + message.sender).set({
+    'message': message
+  });
+}
 const sendMessage = (e) => {
   e.preventDefault()
 
@@ -213,7 +217,7 @@ const sendMessage = (e) => {
   }
 
   // Send message through WebSocket NEED TO CHANGE TO FIREBASE 
-  ws.send(JSON.stringify(message))
+  send(JSON.stringify(message))
 
   // Clear input field
   chatInputForm.reset()
