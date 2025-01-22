@@ -44,11 +44,20 @@ const passwordSignUpForm = document.getElementById('signup-password-input')
 // Buttons
 const signInGoogleBtn = document.getElementById('sign-in-with-google-btn')
 const signUpGoogleBtn = document.getElementById('sign-up-with-google-btn')
-const googleBtns = [signInGoogleBtn, signUpGoogleBtn]
+//const googleBtns = [signInGoogleBtn, signUpGoogleBtn]
 
-const createAccountBtn = document.getElementById('sign-up-btn')
+//const createAccountBtn = document.getElementById('sign-up-btn')
 const loginBtn = document.getElementById('sign-in-btn')
 const logoutBtn = document.getElementById('logout-button')
+
+//const chatHeader = document.querySelector('.chat-header')
+const chatMessages = document.querySelector('.chat-messages')
+const chatInputForm = document.querySelector('.chat-input-form')
+const chatInput = document.querySelector('.chat-input')
+
+var messageSender = ''
+var email = ""
+
 
 
 // Detects state change
@@ -57,10 +66,13 @@ onAuthStateChanged(auth, (user) => {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/auth.user
       const uid = user.uid;
-      const email = user.email
+      email = user.email
+      console.log(email)
       loggedInView.style.display = 'block'
       userEmail.innerText = email
       loggedOutView.style.display = 'none'
+      messageSender = email
+      console.log(messageSender);
       // ...
     } else {
       // User is signed out
@@ -107,4 +119,43 @@ logoutBtn.addEventListener('click', () => {
       });
       
     console.log('Logout Clicked')
+})
+const createChatMessageElement = (message) => `
+  <div class="message ${message.sender === messageSender ? 'blue-bg' : 'gray-bg'}">
+    <div class="message-sender">${message.sender}</div>
+    <div class="message-text">${message.text}</div>
+    <div class="message-timestamp">${message.timestamp}</div>
+  </div>
+`
+
+
+
+
+function sendMessage() {
+ 
+
+  
+}
+
+chatInputForm.addEventListener('submit', () => {
+  let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+let man = chatInput.value
+console.log(man)
+  let message = {
+    sender: email,
+    text: man,
+    timestamp,
+  }
+  createChatMessageElement(message);  
+  console.log(message);
+
+  // Send message through WebSocket
+  //ws.send(JSON.stringify(message))
+
+  // Clear input field
+  //chatInputForm.reset()
+
+  // Scroll to bottom of chat messages
+  //chatMessages.scrollTop = chatMessages.scrollHeight
+
 })
