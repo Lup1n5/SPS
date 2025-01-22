@@ -73,24 +73,7 @@ onAuthStateChanged(auth, (user) => {
 
 // Event Listeners for Buttons
 // Click on Create Account Button
-createAccountBtn.addEventListener('click', () => {
-    createUserWithEmailAndPassword(auth, emailSignUpForm.value, passwordSignUpForm.value)
-        .then((userCredential) => {
-            // Signed up 
-            const user = userCredential.user;
-            console.log(user)
-            // ...
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorMessage)
-            // ..
-        });
-    console.log('Create Account Button Clicked')
-    console.log(`Email: ${emailSignUpForm.value}`)
-    console.log(`Password: ${passwordSignUpForm.value}`)
-})
+
 
 // Click on Login Button
 loginBtn.addEventListener('click', () => {
@@ -112,33 +95,6 @@ loginBtn.addEventListener('click', () => {
     console.log(`Password: ${passwordSignInForm.value}`)
 })
 
-// Click on Google Signin
-googleBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                // The signed-in user info.
-                const user = result.user;
-                console.log(user);
-                // IdP data available using getAdditionalUserInfo(result)
-                // ...
-            }).catch((error) => {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorMessage);
-                // The email of the user's account used.
-                const email = error.customData.email;
-                // The AuthCredential type that was used.
-                const credential = GoogleAuthProvider.credentialFromError(error);
-                // ...
-            });
-        console.log('Google Signin Clicked');
-    });
-});
 
 
 

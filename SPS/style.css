@@ -77,7 +77,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-.auth-toggle-signin, .auth-toggle-signup {
+.auth-toggle-signin {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -93,9 +93,7 @@ h1 {
   display: block;
 }
 
-#signup-form {
-  display: none;
-}
+
 
 .auth-toggle-signin {
   border-radius: 10px 0 0 0;
@@ -103,10 +101,7 @@ h1 {
   color: white;
 }
 
-.auth-toggle-signup {
-  border-radius: 0 10px 0 0;
-  background-color: lightgrey;
-}
+
 
 /* Login Form Container */
 .login-form-container {
