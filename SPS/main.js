@@ -138,16 +138,16 @@ function sendMessage() {
 }
 
 chatInputForm.addEventListener('submit', () => {
-  let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-let man = chatInput.value
-console.log(man)
-  let message = {
-    sender: email,
-    text: man,
-    timestamp,
-  }
-  createChatMessageElement(message);  
-  console.log(message);
+//   let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+// let man = chatInput.value
+// console.log(man)
+//   let message = {
+//     sender: email,
+//     text: man,
+//     timestamp,
+//   }
+//   createChatMessageElement(message);  
+//   console.log(message);
 
   // Send message through WebSocket
   //ws.send(JSON.stringify(message))
