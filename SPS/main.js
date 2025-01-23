@@ -54,7 +54,7 @@ const logoutBtn = document.getElementById('logout-button')
 const chatMessages = document.querySelector('.chat-messages')
 const chatInputForm = document.querySelector('.chat-input-form')
 const chatInput = document.querySelector('.chat-input')
-
+const sendBtn = document.querySelector(".send-button")
 var messageSender = ''
 var email = ""
 
@@ -120,42 +120,42 @@ logoutBtn.addEventListener('click', () => {
       
     console.log('Logout Clicked')
 })
-const createChatMessageElement = (message) => `
-  <div class="message ${message.sender === messageSender ? 'blue-bg' : 'gray-bg'}">
-    <div class="message-sender">${message.sender}</div>
+const createChatMessageElement = (message) => {
+  const newMessage = document.createElement("div");
+
+// Add some text content to the Message
+newMessage.innerHTML = `<div class="message ${message.sender === messageSender ? 'blue-bg' : 'gray-bg'}">
+    <div class="message-sender">${message.timestamp}:          ${message.sender}</div>
     <div class="message-text">${message.text}</div>
-    <div class="message-timestamp">${message.timestamp}</div>
-  </div>
-`
+    
+  </div>`;
 
-
-
-
-function sendMessage() {
- 
-
-  
+// Append the Message to an existing element in the DOM
+chatMessages.appendChild(newMessage);
 }
 
-chatInputForm.addEventListener('submit', () => {
-//   let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-// let man = chatInput.value
-// console.log(man)
-//   let message = {
-//     sender: email,
-//     text: man,
-//     timestamp,
-//   }
-//   createChatMessageElement(message);  
-//   console.log(message);
 
-  // Send message through WebSocket
-  //ws.send(JSON.stringify(message))
 
-  // Clear input field
-  //chatInputForm.reset()
 
-  // Scroll to bottom of chat messages
-  //chatMessages.scrollTop = chatMessages.scrollHeight
+sendBtn.addEventListener('click', () => {
+  let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+  let message = {
+    sender: messageSender,
+    text: chatInput.value,
+    timestamp,
+  }
+  if (message.text) {
+  console.log(message)
+  createChatMessageElement(message);  
+  
 
+  ///Send message through firebase
+
+
+  //Clear input field
+  chatInput.value = ""
+
+ // Scroll to bottom of chat messages
+  chatMessages.scrollTop = chatMessages.scrollHeight
+  }
 })

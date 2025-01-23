@@ -8,7 +8,7 @@
 </head>
 <body>
     <main>
-        <h1>Welcome to The Stewflandic Permission System!</h1>
+        
         <div class="content-container">
             <!-- Section for logged-out view -->
             <section id="logged-out-view">
@@ -41,21 +41,22 @@
             
             <!-- Section for logged-in view -->
             <section id="logged-in-view">
-                <div class="top-section">
-                    <h2 class="greeting">You are logged in as <span id="user-email"></span>.</h2>
-                    <button id="logout-button" class="logout-btn">Logout</button>
-                </div>
+                
                 <div class="chat-container">
                     
               
                     <div class="chat-messages"></div>
               
-                    <form class="chat-input-form">
+                    <div class="chat-input-form">
                       <input type="text" class="chat-input" required placeholder="Type here..."/>
-                      <button type="sendit" class="button send-button">Send</button>
-                    </form>
+                      <button class="button send-button">Send</button>
+                    </div>
                     
                   </div>
+                  <div class="top-section">
+                    <h2 class="greeting">Welcome to The Stewflandic Permission System! <br>You are logged in as <span id="user-email"></span>.</h2>
+                    <button id="logout-button" class="logout-btn">Logout</button>
+                </div>
             </section>
         </div>
     </main>
@@ -89,4 +90,4 @@
     <!-- Import external script -->
     <script type="module" src="main.js"></script>
 </body>
-</html>
+</html> 
