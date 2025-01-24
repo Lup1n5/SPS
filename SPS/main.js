@@ -71,6 +71,8 @@ onAuthStateChanged(auth, (user) => {
       console.log(email)
       loggedInView.style.display = 'block'
       userEmail.innerText = email
+      emailSignInForm.value = ""
+      passwordSignInForm.value = ""
       loggedOutView.style.display = 'none'
       messageSender = email
       console.log(messageSender);
@@ -116,10 +118,10 @@ loginBtn.addEventListener('click', () => {
 
 // logout button
 logoutBtn.addEventListener('click', () => {
-  const refage = ref(db, `users/${uid}`)
-  set(refage, null)
-  const messageRef = ref(db,`messages/${uid}`)
-  set(messageRef,null)
+  // const refage = ref(db, `users/${uid}`)
+  // set(refage, null)
+  // const messageRef = ref(db,`messages/${uid}`)
+  // set(messageRef,null)
     signOut(auth).then(() => {
         // Sign-out successful.
       }).catch((error) => {
