@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set, onValue, get, DataSnapshot } from "firebase/database";
 import { getAuth, 
          createUserWithEmailAndPassword, 
          signInWithEmailAndPassword, 
@@ -10,7 +11,7 @@ import { getAuth,
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-
+//hi
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAYjLbsdGgVccTHa_bpEaDh7orYmzldiMk",
@@ -26,7 +27,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
-
+const db = getDatabase(app);
 
 // logged in and logged out sections
 const loggedInView = document.getElementById('logged-in-view')
@@ -59,13 +60,13 @@ var messageSender = ''
 var email = ""
 
 
-
+let uid = '';
 // Detects state change
 onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/auth.user
-      const uid = user.uid;
+      uid = user.uid;
       email = user.email
       console.log(email)
       loggedInView.style.display = 'block'
@@ -73,10 +74,13 @@ onAuthStateChanged(auth, (user) => {
       loggedOutView.style.display = 'none'
       messageSender = email
       console.log(messageSender);
+      const refage = ref(db, `users/${uid}`)
+      set(refage, email)
       // ...
     } else {
       // User is signed out
       // ...
+      
       loggedInView.style.display = 'none'
       loggedOutView.style.display = 'block'
     }
@@ -112,6 +116,10 @@ loginBtn.addEventListener('click', () => {
 
 // logout button
 logoutBtn.addEventListener('click', () => {
+  const refage = ref(db, `users/${uid}`)
+  set(refage, null)
+  const messageRef = ref(db,`messages/${uid}`)
+  set(messageRef,null)
     signOut(auth).then(() => {
         // Sign-out successful.
       }).catch((error) => {
@@ -146,6 +154,18 @@ sendBtn.addEventListener('click', () => {
   }
   if (message.text) {
   console.log(message)
+  const messageRef = ref(db,`messages/${uid}`)
+  set(messageRef,message)
+  const counterRef = ref(db,'messageCount')
+  get(counterRef).then((DataSnapshot) => {
+    console.log(DataSnapshot.val())
+    set(counterRef,DataSnapshot.val()+1)
+  
+
+  } )
+  
+  
+  console.log(counterRef)
   createChatMessageElement(message);  
   
 
@@ -159,3 +179,4 @@ sendBtn.addEventListener('click', () => {
   chatMessages.scrollTop = chatMessages.scrollHeight
   }
 })
+
