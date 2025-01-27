@@ -77,6 +77,17 @@ onAuthStateChanged(auth, (user) => {
       messageSender = email
       console.log(messageSender);
       const refage = ref(db, `users/${uid}`)
+      let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+  let message = {
+    sender: "Server",
+    text: `${messageSender} has connected.`,
+    timestamp,
+  }
+  
+  console.log(message)
+  const messageRef = ref(db,`messages/${uid}`)
+  set(messageRef,message)
+
       set(refage, email)
       // ...
     } else {
