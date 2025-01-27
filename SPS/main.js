@@ -96,15 +96,16 @@ onAuthStateChanged(auth, (user) => {
       // User is signed out
       // ...
       
-      loggedInView.style.display = 'none'
+      loggedInView.style.display = 'none' 
       loggedOutView.style.display = 'block'
-      while(chatMessages.firstChild) { 
-        chatMessages.removeChild(chatMessages.firstChild); 
-    } 
+       
     }
   });
   function closeIt()
   {
+    for (var i = 0; i<chatMessages.childElementCount; i++) { 
+      chatMessages.removeChild(chatMessages.firstChild); 
+  }
     signOut(auth).then(() => {
       // Sign-out successful.
     }).catch((error) => {
@@ -146,6 +147,9 @@ logoutBtn.addEventListener('click', () => {
   // set(refage, null)
   // const messageRef = ref(db,`messages/${uid}`)
   // set(messageRef,null)
+  for (var i = 0; i<chatMessages.childElementCount; i++) { 
+    chatMessages.removeChild(chatMessages.firstChild); 
+}
     signOut(auth).then(() => {
         // Sign-out successful.
       }).catch((error) => {
@@ -205,9 +209,49 @@ sendBtn.addEventListener('click', () => {
   chatMessages.scrollTop = chatMessages.scrollHeight
   }
 })
+// const allusers = ref(db, "users")
+// const userList = [];
+// get(allusers).then((snapshot) =>{
+//   let snap = snapshot.val()
+//   userList.push([i, json_data [i]]);
+  
+// })
 const user1ref = ref(db, `messages/nDBBZ9zEPgZTkJLm36gWRdqIqzf2/text`)
 onValue(user1ref, () =>{
   let reef = ref(db, 'messages/nDBBZ9zEPgZTkJLm36gWRdqIqzf2')
+  get(reef).then((snapshot) =>{
+    let snap = snapshot.val()
+    if (snap.sender != messageSender) {
+    createChatMessageElement(snap)
+    }
+
+  })
+})
+const user4ref = ref(db, `messages/etmONmSVd5YosaeyllFUctIer5H2/text`)
+onValue(user4ref, () =>{
+  let reef = ref(db, 'messages/etmONmSVd5YosaeyllFUctIer5H2')
+  get(reef).then((snapshot) =>{
+    let snap = snapshot.val()
+    if (snap.sender != messageSender) {
+    createChatMessageElement(snap)
+    }
+
+  })
+})
+const user2ref = ref(db, `messages/iww4Iv4FNeMld3dbty5zGYtuqAF3/text`)
+onValue(user2ref, () =>{
+  let reef = ref(db, 'messages/iww4Iv4FNeMld3dbty5zGYtuqAF3')
+  get(reef).then((snapshot) =>{
+    let snap = snapshot.val()
+    if (snap.sender != messageSender) {
+    createChatMessageElement(snap)
+    }
+
+  })
+})
+const user3ref = ref(db, `messages/HXVED6I7jLcGElpEiPbjyro5FYv1/text`)
+onValue(user3ref, () =>{
+  let reef = ref(db, 'messages/HXVED6I7jLcGElpEiPbjyro5FYv1')
   get(reef).then((snapshot) =>{
     let snap = snapshot.val()
     if (snap.sender != messageSender) {
