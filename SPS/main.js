@@ -62,6 +62,7 @@ var email = ""
 
 let uid = '';
 // Detects state change
+
 onAuthStateChanged(auth, (user) => {
     if (user) {
       // User is signed in, see docs for a list of available properties
@@ -83,6 +84,7 @@ onAuthStateChanged(auth, (user) => {
     text: `${messageSender} has connected.`,
     timestamp,
   }
+
   
   console.log(message)
   const messageRef = ref(db,`messages/${uid}`)
@@ -96,9 +98,20 @@ onAuthStateChanged(auth, (user) => {
       
       loggedInView.style.display = 'none'
       loggedOutView.style.display = 'block'
+      while(chatMessages.firstChild) { 
+        chatMessages.removeChild(chatMessages.firstChild); 
+    } 
     }
   });
-
+  function closeIt()
+  {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
+  window.onbeforeunload = closeIt;
 
 // Event Listeners for Buttons
 // Click on Create Account Button
@@ -192,4 +205,16 @@ sendBtn.addEventListener('click', () => {
   chatMessages.scrollTop = chatMessages.scrollHeight
   }
 })
+const user1ref = ref(db, `messages/nDBBZ9zEPgZTkJLm36gWRdqIqzf2/text`)
+onValue(user1ref, () =>{
+  let reef = ref(db, 'messages/nDBBZ9zEPgZTkJLm36gWRdqIqzf2')
+  get(reef).then((snapshot) =>{
+    let snap = snapshot.val()
+    if (snap.sender != messageSender) {
+    createChatMessageElement(snap)
+    }
+
+  })
+})
+
 
