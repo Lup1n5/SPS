@@ -69,14 +69,14 @@ onAuthStateChanged(auth, (user) => {
       // https://firebase.google.com/docs/reference/js/auth.user
       uid = user.uid;
       email = user.email
-      console.log(email)
+      //console.log(email)
       loggedInView.style.display = 'block'
       userEmail.innerText = email
       emailSignInForm.value = ""
       passwordSignInForm.value = ""
       loggedOutView.style.display = 'none'
       messageSender = email
-      console.log(messageSender);
+      //console.log(messageSender);
       const refage = ref(db, `users/${uid}`)
       let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
   let message = {
@@ -86,7 +86,7 @@ onAuthStateChanged(auth, (user) => {
   }
 
   
-  console.log(message)
+  //console.log(message)
   const messageRef = ref(db,`messages/${uid}`)
   set(messageRef,message)
 
@@ -101,18 +101,18 @@ onAuthStateChanged(auth, (user) => {
        
     }
   });
-  function closeIt()
-  {
-    for (var i = 0; i<chatMessages.childElementCount; i++) { 
-      chatMessages.removeChild(chatMessages.firstChild); 
-  }
-    signOut(auth).then(() => {
-      // Sign-out successful.
-    }).catch((error) => {
-      // An error happened.
-    });
-  }
-  window.onbeforeunload = closeIt;
+  // function closeIt()
+  // {
+  //   for (var i = 0; i<chatMessages.childElementCount; i++) { 
+  //     chatMessages.removeChild(chatMessages.firstChild); 
+  // }
+  //   signOut(auth).then(() => {
+  //     // Sign-out successful.
+  //   }).catch((error) => {
+  //     // An error happened.
+  //   });
+  // }
+  // window.onbeforeunload = closeIt;
 
 // Event Listeners for Buttons
 // Click on Create Account Button
@@ -124,20 +124,29 @@ loginBtn.addEventListener('click', () => {
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-            console.log(user)
+            //console.log(user)
             // ...
         })
         .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorMessage)
+            //console.log(errorMessage)
+            passwordSignInForm.value = ""
         });
 
-    console.log('Login Clicked')
-    console.log(`Email: ${emailSignInForm.value}`)
-    console.log(`Password: ${passwordSignInForm.value}`)
-})
-
+    //console.log('Login Clicked')
+    //console.log(`Email: ${emailSignInForm.value}`)
+    ////console.log(`Password: ${passwordSignInForm.value}`)
+  })
+passwordSignInForm.addEventListener("keypress", function(event) {
+  // If the user presses the "Enter" key on the keyboard
+  if (event.key === "Enter") {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    loginBtn.click();
+  }
+});
 
 
 
@@ -156,11 +165,19 @@ logoutBtn.addEventListener('click', () => {
         // An error happened.
       });
       
-    console.log('Logout Clicked')
+    //console.log('Logout Clicked')
 })
 const createChatMessageElement = (message) => {
   const newMessage = document.createElement("div");
-
+  let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+  // let string = ((timestamp - ":") - "PM") - "AM"
+  let time1 = timestamp.replace(/[:APM]/g, ""); 
+  let time2 = message.timestamp.replace(/[:APM]/g, ""); 
+  //console.log(Number(time1))
+  //console.log(Number(time2))
+  //console.log(Number(time2)-Number(time1))
+  if (Math.abs(Number(time2)-Number(time1)) <2) {
+   
 // Add some text content to the Message
 newMessage.innerHTML = `<div class="message ${message.sender === messageSender ? 'blue-bg' : 'gray-bg'}">
     <div class="message-sender">${message.timestamp}:          ${message.sender}</div>
@@ -170,6 +187,8 @@ newMessage.innerHTML = `<div class="message ${message.sender === messageSender ?
 
 // Append the Message to an existing element in the DOM
 chatMessages.appendChild(newMessage);
+chatMessages.scrollTop = chatMessages.scrollHeight
+  }
 }
 
 
@@ -183,19 +202,19 @@ sendBtn.addEventListener('click', () => {
     timestamp,
   }
   if (message.text) {
-  console.log(message)
+  //console.log(message)
   const messageRef = ref(db,`messages/${uid}`)
   set(messageRef,message)
   const counterRef = ref(db,'messageCount')
   get(counterRef).then((DataSnapshot) => {
-    console.log(DataSnapshot.val())
+    //console.log(DataSnapshot.val())
     set(counterRef,DataSnapshot.val()+1)
   
 
   } )
   
   
-  console.log(counterRef)
+  //console.log(counterRef)
   createChatMessageElement(message);  
   
 
@@ -206,59 +225,145 @@ sendBtn.addEventListener('click', () => {
   chatInput.value = ""
 
  // Scroll to bottom of chat messages
-  chatMessages.scrollTop = chatMessages.scrollHeight
+  //chatMessages.scrollTop = chatMessages.scrollHeight
   }
 })
-// const allusers = ref(db, "users")
-// const userList = [];
-// get(allusers).then((snapshot) =>{
-//   let snap = snapshot.val()
-//   userList.push([i, json_data [i]]);
+chatInput.addEventListener("keypress", function(event) {
+  // If the user presses the "Enter" key on the keyboard
+  if (event.key === "Enter") {
+    // Cancel the default action, if needed
+    event.preventDefault();
+    // Trigger the button element with a click
+    sendBtn.click();
+  }
+});
+const allusers = ref(db, "users")
+var userList = [];
+
+get(allusers).then((snapshot) =>{
+  let snap = snapshot.val()
+  userList = Object.keys(snap)
   
-// })
-const user1ref = ref(db, `messages/nDBBZ9zEPgZTkJLm36gWRdqIqzf2/text`)
+  //console.log(userList)
+  //console.log(userList.at(3))
+  
+
+
+const user1ref = ref(db, `messages/${userList.at(0)}/text`)
+const user2ref = ref(db, `messages/${userList.at(1)}/text`)
+const user3ref = ref(db, `messages/${userList.at(2)}/text`)
+const user4ref = ref(db, `messages/${userList.at(3)}/text`)
+const user5ref = ref(db, `messages/${userList.at(4)}/text`)
+const user6ref = ref(db, `messages/${userList.at(5)}/text`)
+const user7ref = ref(db, `messages/${userList.at(6)}/text`)
+const user8ref = ref(db, `messages/${userList.at(7)}/text`)
 onValue(user1ref, () =>{
-  let reef = ref(db, 'messages/nDBBZ9zEPgZTkJLm36gWRdqIqzf2')
+  let reef = ref(db, `messages/${userList.at(0)}`)
   get(reef).then((snapshot) =>{
     let snap = snapshot.val()
+    //console.log(snap)
     if (snap.sender != messageSender) {
+      //,
     createChatMessageElement(snap)
     }
 
   })
 })
-const user4ref = ref(db, `messages/etmONmSVd5YosaeyllFUctIer5H2/text`)
-onValue(user4ref, () =>{
-  let reef = ref(db, 'messages/etmONmSVd5YosaeyllFUctIer5H2')
-  get(reef).then((snapshot) =>{
-    let snap = snapshot.val()
-    if (snap.sender != messageSender) {
-    createChatMessageElement(snap)
-    }
-
-  })
-})
-const user2ref = ref(db, `messages/iww4Iv4FNeMld3dbty5zGYtuqAF3/text`)
 onValue(user2ref, () =>{
-  let reef = ref(db, 'messages/iww4Iv4FNeMld3dbty5zGYtuqAF3')
+  let reef = ref(db, `messages/${userList.at(1)}`)
   get(reef).then((snapshot) =>{
     let snap = snapshot.val()
+    //console.log(snap)
     if (snap.sender != messageSender) {
+      //,
     createChatMessageElement(snap)
     }
 
   })
 })
-const user3ref = ref(db, `messages/HXVED6I7jLcGElpEiPbjyro5FYv1/text`)
 onValue(user3ref, () =>{
-  let reef = ref(db, 'messages/HXVED6I7jLcGElpEiPbjyro5FYv1')
+  let reef = ref(db, `messages/${userList.at(2)}`)
   get(reef).then((snapshot) =>{
     let snap = snapshot.val()
+    //console.log(snap)
     if (snap.sender != messageSender) {
+      //,
+    createChatMessageElement(snap)
+    }
+
+  })
+})
+onValue(user4ref, () =>{
+  let reef = ref(db, `messages/${userList.at(3)}`)
+  get(reef).then((snapshot) =>{
+    let snap = snapshot.val()
+    //console.log(snap)
+    if (snap.sender != messageSender) {
+      //,
+    createChatMessageElement(snap)
+    }
+
+  })
+})
+onValue(user5ref, () =>{
+  let reef = ref(db, `messages/${userList.at(4)}`)
+  get(reef).then((snapshot) =>{
+    let snap = snapshot.val()
+    //console.log(snap)
+    if (snap.sender != messageSender) {
+      //,
+    createChatMessageElement(snap)
+    }
+
+  })
+})
+onValue(user6ref, () =>{
+  let reef = ref(db, `messages/${userList.at(5)}`)
+  get(reef).then((snapshot) =>{
+    let snap = snapshot.val()
+    //console.log(snap)
+    if (snap.sender != messageSender) {
+      //,
+    createChatMessageElement(snap)
+    }
+
+  })
+})
+onValue(user7ref, () =>{
+  let reef = ref(db, `messages/${userList.at(6)}`)
+  get(reef).then((snapshot) =>{
+    let snap = snapshot.val()
+    //console.log(snap)
+    if (snap.sender != messageSender) {
+      //,
+    createChatMessageElement(snap)
+    }
+
+  })
+})
+onValue(user8ref, () =>{
+  let reef = ref(db, `messages/${userList.at(7)}`)
+  get(reef).then((snapshot) =>{
+    let snap = snapshot.val()
+    //console.log(snap)
+    if (snap.sender != messageSender) {
+      //,
     createChatMessageElement(snap)
     }
 
   })
 })
 
+})
 
+
+
+
+
+
+
+
+
+
+
+//haha 69
