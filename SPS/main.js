@@ -60,11 +60,11 @@ function logout() {
 }
   
 }
-document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === 'hidden') {
-    logout();
-  }
-});
+// document.addEventListener("visibilitychange", () => {
+//   if (document.visibilityState === 'hidden') {
+//     logout();
+//   }
+// });
 onAuthStateChanged(auth, (user) => {
     if (user) {
       uid = user.uid;
@@ -123,7 +123,7 @@ const createChatMessageElement = (message) => {
   let time1 = timestamp.replace(/[:APM]/g, ""); 
   let time2 = message.timestamp.replace(/[:APM]/g, ""); 
   if (Math.abs(Number(time2)-Number(time1)) <2) {
-newMessage.innerHTML = `<div class="message ${message.sender === messageSender ? 'blue-bg' : 'gray-bg'}">
+newMessage.innerHTML = `<div class="message ${message.sender === messageSender ? 'blue-bg' : message.text.includes('@'+messageSender.replace("@providenceday.org",'')) == true ? 'yello-bg' : 'gray-bg'}">
   <div class="message-sender">${message.timestamp}:          ${message.sender}</div>
   <div class="message-text">${message.text}</div>
   </div>`;
