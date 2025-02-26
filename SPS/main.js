@@ -167,7 +167,7 @@ sendBtn.addEventListener('click', () => {
     })
   })
    if (retern == false) {
-    
+    let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
     let message = {
       sender: 'TABLIST',
       text: `Nobody is online.`,
