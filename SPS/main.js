@@ -165,19 +165,20 @@ sendBtn.addEventListener('click', () => {
       retern = true;
       }
     })
+    if (retern == false) {
+      let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+      let message = {
+        sender: 'TABLIST',
+        text: `Nobody is online.`,
+        timestamp,
+      }
+      
+      createChatMessageElement(message);  
+      
+      
+     }
   })
-   if (retern == false) {
-    let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
-    let message = {
-      sender: 'TABLIST',
-      text: `Nobody is online.`,
-      timestamp,
-    }
-    
-    createChatMessageElement(message);  
-    
-    
-   }
+   
   chatInput.value = ""
 }
 
