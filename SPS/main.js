@@ -173,13 +173,14 @@ sendBtn.addEventListener('click', () => {
       text: `Nobody is online.`,
       timestamp,
     }
-    if (snap !=messageSender) {
+    
     createChatMessageElement(message);  
-    retern = true;
-    }
+    
+    
    }
   chatInput.value = ""
 }
+
 })
 chatInput.addEventListener("keypress", function(event) {
   if (event.key === "Enter") {
