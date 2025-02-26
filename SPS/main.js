@@ -206,22 +206,3 @@ get(allmessages).then((snapshot) =>{
 
   });
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//haha 69
