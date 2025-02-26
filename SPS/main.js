@@ -40,6 +40,14 @@ var messageSender = ''
 var email = ""
 let uid = '';
 function logout() {
+  let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+  let message = {
+    sender: "Server",
+    text: `${messageSender} has disconnected.`,
+    timestamp,
+  }
+  const messageRef = ref(db,`messages/${uid}`)
+  set(messageRef,message)
   const refage = ref(db, `users/${uid}`)
       set(refage, null)
   for (var i = 0; i<chatMessages.childElementCount; i++) { 
