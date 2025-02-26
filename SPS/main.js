@@ -150,18 +150,35 @@ sendBtn.addEventListener('click', () => {
   chatInput.value = ""
   }
 } else {
+  var retern = false;
   const refage = ref(db, `users`)
   get(refage).then((snapshot) =>{
     Object.values(snapshot.val()).forEach((snap) =>{
       let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
       let message = {
-        sender: messageSender,
+        sender: 'TABLIST',
         text: `${snap} is online.`,
         timestamp,
       }
+      if (snap !=messageSender) {
       createChatMessageElement(message);  
+      retern = true;
+      }
     })
+    if (retern == false) {
+      let timestamp = new Date().toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+      let message = {
+        sender: 'TABLIST',
+        text: `Nobody is online.`,
+        timestamp,
+      }
+      
+      createChatMessageElement(message);  
+      retern = true;
+      
+     }
   })
+   
   chatInput.value = ""
 }
 })
